@@ -12,7 +12,8 @@ code {
     monospace;
 }
 .calculator-box {
-  width: 240px;
+  padding-top: 11px;
+  width: 440px;
   height: auto;
   margin: 3% auto;
   background: #ccc;
@@ -27,14 +28,14 @@ code {
 .result-screen {
   width: 86%;
   height: 54px;
-  margin: 20px 0px 0px 12px;
+  margin: 3% 0 0 2%;
   padding-right: 9px;
-  background: #858585;
+  background: #e6e6e6;
   text-align: right;
   border-radius: 6px;
   border: 1px solid #6b6b6b;
   font-size: 26px;
-  font: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  font-weight: 600;
   -moz-box-shadow: inset 0 0 10px #333, inset 0 1px 1px #0a0b0d, 0px 1px #e6e6e6;
   -webkit-box-shadow: inset 0 0 10px #333, inset 0 1px 1px #0a0b0d,
     0px 1px #e6e6e6;
@@ -42,13 +43,13 @@ code {
 }
 
 .buttons-area {
-  width: 220px;
+  width: 420px;
   margin: 12px;
 }
 
 button {
-  width: 45px;
-  height: 45px;
+  width: 90px;
+  height: 65px;
   padding: 0;
   margin: 0px 0px 10px 5px;
   border: 1px solid #333;
@@ -91,7 +92,6 @@ button:active {
   color: #fff;
   border: 1px solid #333;
   background-color: #602be2;
-
 }
 button:hover,
 button:focus {
@@ -99,5 +99,46 @@ button:focus {
   transition: background-color 200ms linear;
   cursor: pointer;
   border: 1px solid #ccc;
-  color:#fff;
+  color: #fff;
+}
+.aux-box{
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+}
+.item {
+  flex-basis: 46%;
+}
+
+.result-small-screen {
+  width: 100%;
+  height: 24px;
+
+  padding-right: 9px;
+  background: #e6e6e6;
+  text-align: right;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+.select-box {
+
+  height: 30px;
+  padding: 0.25em;
+  border: 0;
+  border-bottom: 2px solid currentcolor;
+  font-weight: bold;
+  letter-spacing: 0.15em;
+  border-radius: 8px;
+}
+.select-box:focus,
+.select-box:active {
+  outline: 0;
+  border-bottom-color: grey;
+}
+ option{
+  font-weight: bold;
+  letter-spacing: 0.15em;
 }

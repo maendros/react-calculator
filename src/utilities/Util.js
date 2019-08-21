@@ -1,4 +1,4 @@
-export function setDisplayNumber(prev, buttonVal, isReadyForOperation) {
+function setDisplayNumber(prev, buttonVal, isReadyForOperation) {
   if (isReadyForOperation) {
     return buttonVal;
   }
@@ -18,13 +18,13 @@ export function setDisplayNumber(prev, buttonVal, isReadyForOperation) {
   }
 }
 
-export function setSign(value) {
+function setSign(value) {
   return value === "0" || value.includes("-")
     ? value.replace("-", "")
     : "-" + value;
 }
 export function calculate(obj, buttonValue) {
-  console.log(obj);
+  // console.log(obj);
 
   switch (buttonValue) {
     case "/":
@@ -33,18 +33,38 @@ export function calculate(obj, buttonValue) {
     case "-":
       return {
         total: obj.total,
-        currentValue: obj.currentValue,
+        currentValue:
+          obj.operator !== ""
+            ? operate(obj.total, obj.currentValue, obj.operator)
+            : obj.total,
         operator: buttonValue,
         readyForOperation: true
       };
     case "=":
       return {
         total: operate(obj.total, obj.currentValue, obj.operator),
-        currentValue: obj.total,
+        currentValue: "0",
         operator: "",
-        readyForOperation: false
+        readyForOperation: true
+      };
+    case "⬅":
+      return {
+        total:
+          obj.total.length === 1 ||
+          (obj.total.length === 2 && obj.total.charAt(0) === "-")
+            ? "0"
+            : obj.total.slice(0, -1),
+        currentValue: obj.currentValue,
+        operator: obj.operator,
+        readyForOperation: obj.isReadyForOperation
       };
     case "CE":
+      return {
+        total: "0",
+        currentValue: obj.currentValue,
+        operator: obj.operator,
+        readyForOperation: obj.isReadyForOperation
+      };
     case "C":
       return {
         total: "0",
@@ -55,44 +75,29 @@ export function calculate(obj, buttonValue) {
     default:
       return {
         total: setDisplayNumber(obj.total, buttonValue, obj.readyForOperation),
-        currentValue: obj.total,
+        currentValue: obj.currentValue,
         operator: obj.operator,
         readyForOperation: false
       };
   }
 }
-export function operate(totalValue, currentVal, button) {
+ function operate(totalValue, currentVal, button) {
   switch (button) {
     case "/":
       if (totalValue === "0") {
-        alert("Dividing by zero is Forbidden");
-        return "0";
+        return "Cannot divide by zero";
       } else if (currentVal === "0" && totalValue === "0") {
-        alert("Result is Undefined");
-        return "0";
+        return "Result is Undefined";
       } else {
-        let cValue = parseInt(currentVal);
-        let tValue = parseInt(totalValue);
-        let ct = cValue / tValue;
-        return ct.toFixed(8).toString();
+        return parseFloat(currentVal / totalValue).toString();
       }
     case "*":
-    //   let cValue = parseInt(currentVal);
-    //   let tValue = parseInt(totalValue);
-    //   let ct = cValue / tValue;
-    let ct = parseFloat(currentVal) * parseFloat(totalValue)
-    console.log(parseFloat(currentVal))
-      return ct.toString();
+      return parseFloat(currentVal * totalValue).toString();
     case "+":
-      let cValue1 = parseInt(currentVal);
-      let tValue1 = parseInt(totalValue);
-      let ct1 = cValue1 / tValue1;
-      return ct1.toFixed(8).toString();
+      let result = parseFloat(currentVal) + parseFloat(totalValue);
+      return result.toString();
     case "-":
-      let cValue2 = parseInt(currentVal);
-      let tValue2 = parseInt(totalValue);
-      let ct2 = cValue2 / tValue2;
-      return ct2.toFixed(8).toString();
+      return parseFloat(currentVal - totalValue).toString();
     default:
       return totalValue;
   }

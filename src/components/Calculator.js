@@ -3,9 +3,7 @@ import Button from "./Button";
 import PropTypes from "prop-types";
 
 class Calculator extends Component {
-  state = {
-    showSideDrawer: false
-  };
+
 
   static propTypes = {
     handleClick: PropTypes.func
