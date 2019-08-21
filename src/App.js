@@ -1,24 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+
+import "./App.css";
+import Calculator from "./components/Calculator";
+import ResultScreen from "./components/ResultScreen";
+import { calculate } from "./utilities/Util";
 
 function App() {
+  const [result, setResult] = useState({
+    total: "0",
+    currentValue: "0",
+    operator: '',
+    readyForOperation : false
+  });
+  // function handleValue(buttonVal) {
+  //   return setResult({ total: calculate(result.total, buttonVal) });
+  // }
+  function handleValue(buttonVal) {
+    return setResult({ ...calculate(result, buttonVal) });
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="calculator-box">
+        <ResultScreen resultValue={result.total} />
+        <Calculator handleClick={handleValue} />
+      </div>
     </div>
   );
 }
