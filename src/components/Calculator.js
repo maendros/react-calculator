@@ -14,8 +14,8 @@ class Calculator extends Component {
   render() {
     return (
       <div className="buttons-area">
+      
         <Button className="clear" value={"C"} handleClick={this.handleValue}/>
-
         <Button className="digit" value={"CE"}  handleClick={this.handleValue} />
         <Button className="backspace" value={"⬅"} handleClick={this.handleValue} />
         <Button className="sign" value={"±"} handleClick={this.handleValue} />
