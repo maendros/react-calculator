@@ -23,7 +23,40 @@ function setSign(value) {
     ? value.replace("-", "")
     : "-" + value;
 }
-export function calculate(obj, buttonValue) {
+
+function operate(totalValue, currentVal, button) {
+  switch (button) {
+    case "/":
+      if (totalValue === "0") {
+        return "Cannot divide by zero";
+      } else if (currentVal === "0" && totalValue === "0") {
+        return "Result is Undefined";
+      } else {
+        return parseFloat(currentVal / totalValue).toString();
+      }
+    case "*":
+      return parseFloat(currentVal * totalValue).toString();
+    case "+":
+      let result = parseFloat(currentVal) + parseFloat(totalValue);
+      return result.toString();
+    case "-":
+      return parseFloat(currentVal - totalValue).toString();
+    default:
+      return totalValue;
+  }
+}
+
+function removeLetter(letter) {
+  return letter.length === 1 ||
+    (letter.length === 2 && letter.charAt(0) === "-")
+    ? "0"
+    : letter.slice(0, -1);
+}
+function isValidValue(curValue) {
+  return curValue === "0" || isNaN(Number(curValue));
+}
+
+export function calculate(obj, buttonValue, rate = 0) {
   // console.log(obj);
 
   switch (buttonValue) {
@@ -49,11 +82,7 @@ export function calculate(obj, buttonValue) {
       };
     case "⬅":
       return {
-        total:
-          obj.total.length === 1 ||
-          (obj.total.length === 2 && obj.total.charAt(0) === "-")
-            ? "0"
-            : obj.total.slice(0, -1),
+        total: removeLetter(obj.total),
         currentValue: obj.currentValue,
         operator: obj.operator,
         readyForOperation: obj.isReadyForOperation
@@ -72,6 +101,18 @@ export function calculate(obj, buttonValue) {
         operator: "",
         readyForOperation: false
       };
+    case "€":
+      return {
+        total: isValidValue(obj.currentValue)
+          ? rate * Number(obj.total)
+          : rate * Number(obj.currentValue),
+        currentValue: isValidValue(obj.currentValue)
+          ? obj.total
+          : obj.currentValue,
+        operator: "",
+        readyForOperation: true
+      };
+
     default:
       return {
         total: setDisplayNumber(obj.total, buttonValue, obj.readyForOperation),
@@ -79,26 +120,5 @@ export function calculate(obj, buttonValue) {
         operator: obj.operator,
         readyForOperation: false
       };
-  }
-}
- function operate(totalValue, currentVal, button) {
-  switch (button) {
-    case "/":
-      if (totalValue === "0") {
-        return "Cannot divide by zero";
-      } else if (currentVal === "0" && totalValue === "0") {
-        return "Result is Undefined";
-      } else {
-        return parseFloat(currentVal / totalValue).toString();
-      }
-    case "*":
-      return parseFloat(currentVal * totalValue).toString();
-    case "+":
-      let result = parseFloat(currentVal) + parseFloat(totalValue);
-      return result.toString();
-    case "-":
-      return parseFloat(currentVal - totalValue).toString();
-    default:
-      return totalValue;
   }
 }
